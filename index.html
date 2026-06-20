@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LifeLink BMC</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:#f5f5f5;
+color:#111;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+min-height:100vh;
+}
+
+/* HEADER */
+.header{
+display:flex;
+align-items:center;
+padding:20px;
+border-bottom:1px solid #eee;
+position:sticky;
+top:0;
+background:white;
+z-index:100;
+}
+
+.app-icon{
+width:80px;
+height:80px;
+border-radius:20px;
+}
+
+.info{
+margin-left:15px;
+flex:1;
+}
+
+.name{
+font-size:24px;
+font-weight:800;
+}
+
+.dev{
+font-size:14px;
+color:#666;
+margin-top:5px;
+}
+
+/* GET BUTTON */
+.get-btn{
+background:#d32f2f;
+color:white;
+padding:12px 24px;
+border-radius:30px;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+border:none;
+position:relative;
+overflow:hidden;
+}
+
+.get-btn:hover{
+transform:scale(1.05);
+}
+
+/* PROGRESS INSIDE BUTTON */
+.progress-fill{
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:0%;
+background:#b71c1c;
+z-index:1;
+transition:.4s;
+}
+
+.btn-text{
+position:relative;
+z-index:2;
+}
+
+/* STATS */
+.stats{
+display:flex;
+justify-content:space-around;
+padding:20px;
+text-align:center;
+border-bottom:1px solid #eee;
+}
+
+.stat-title{
+font-size:22px;
+font-weight:800;
+}
+
+.stat-sub{
+font-size:13px;
+color:#777;
+margin-top:4px;
+}
+
+/* SLIDER */
+.slider{
+display:flex;
+overflow-x:auto;
+gap:14px;
+padding:20px;
+scroll-snap-type:x mandatory;
+}
+
+.slider img{
+height:420px;
+border-radius:20px;
+scroll-snap-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+/* SECTION */
+.section{
+padding:22px;
+}
+
+.section h3{
+font-size:22px;
+margin-bottom:15px;
+}
+
+/* FEATURES */
+.features-grid{
+display:grid;
+grid-template-columns:1fr;
+gap:14px;
+}
+
+.feature{
+display:flex;
+align-items:center;
+padding:18px;
+border-radius:16px;
+background:#fafafa;
+box-shadow:0 4px 12px rgba(0,0,0,.05);
+transition:.3s;
+}
+
+.feature:hover{
+transform:translateY(-4px);
+}
+
+.icon{
+width:40px;
+height:40px;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-right:15px;
+font-size:18px;
+color:white;
+}
+
+.red{background:#d32f2f;}
+.blue{background:#1976d2;}
+.green{background:#2e7d32;}
+.orange{background:#ff9800;}
+.purple{background:#7b1fa2;}
+.yellow{background:#fbc02d; color:black;}
+
+/* REVIEWS */
+.review{
+padding:15px;
+background:#fafafa;
+border-radius:15px;
+margin-bottom:14px;
+box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+
+.review-name{
+font-weight:700;
+}
+
+.review-stars{
+color:#ffb400;
+margin-top:4px;
+}
+
+.review-text{
+margin-top:8px;
+color:#666;
+}
+
+/* FOOTER */
+.footer{
+padding:30px;
+text-align:center;
+border-top:1px solid #eee;
+}
+
+.footer img{
+width:90px;
+height:90px;
+border-radius:24px;
+object-fit:cover;
+box-shadow:0 6px 15px rgba(0,0,0,.08);
+margin-bottom:10px;
+}
+
+.footer-title{
+font-size:15px;
+font-weight:700;
+}
+
+.footer-link{
+margin-top:8px;
+display:inline-block;
+color:#1976d2;
+text-decoration:none;
+font-weight:600;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+.name{
+font-size:20px;
+}
+
+.slider img{
+height:320px;
+}
+
+.get-btn{
+padding:10px 18px;
+font-size:14px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+
+<img src="app_icon.png" class="app-icon">
+
+<div class="info">
+<div class="name">LifeLink BMC</div>
+<div class="dev">Blood Donation Network</div>
+</div>
+
+<button class="get-btn" id="getBtn" onclick="handleInstall()">
+<div class="progress-fill" id="progressFill"></div>
+<span class="btn-text" id="btnText">GET</span>
+</button>
+
+</div>
+
+<!-- STATS -->
+<div class="stats">
+<div>
+<div class="stat-title" id="ratingCount">0</div>
+<div class="stat-sub">Reviews</div>
+</div>
+
+<div>
+<div class="stat-title" id="downloadCount">0</div>
+<div class="stat-sub">Downloads</div>
+</div>
+
+<div>
+<div class="stat-title">24/7</div>
+<div class="stat-sub">Available</div>
+</div>
+</div>
+
+<!-- SCREENSHOTS -->
+<div class="slider">
+<img src="1.png">
+<img src="2.png">
+<img src="3.png">
+<img src="4.png">
+</div>
+
+<!-- ABOUT -->
+<div class="section">
+<h3>About this app</h3>
+<p>
+LifeLink BMC helps connect blood donors instantly during emergencies,
+making blood donation faster and smarter.
+</p>
+</div>
+
+<!-- FEATURES -->
+<div class="section">
+<h3>Features</h3>
+
+<div class="features-grid">
+
+<div class="feature">
+<div class="icon red">🩸</div>
+Emergency blood request system
+</div>
+
+<div class="feature">
+<div class="icon blue">📍</div>
+Find nearby blood donors
+</div>
+
+<div class="feature">
+<div class="icon green">📢</div>
+Blood donation camp notifications
+</div>
+
+<div class="feature">
+<div class="icon orange">📊</div>
+Excel report export
+</div>
+
+<div class="feature">
+<div class="icon purple">⚡</div>
+Realtime Firebase sync
+</div>
+
+<div class="feature">
+<div class="icon yellow">🔔</div>
+Instant emergency alerts
+</div>
+
+</div>
+</div>
+
+<!-- REVIEWS -->
+<div class="section">
+<h3>Ratings & Reviews</h3>
+
+<div class="review">
+<div class="review-name">Sreays</div>
+<div class="review-stars">★★★★★</div>
+<div class="review-text">Very useful app. Great initiative.</div>
+</div>
+
+<div class="review">
+<div class="review-name">Renesh</div>
+<div class="review-stars">★★★★★</div>
+<div class="review-text">Smooth and fast UI.</div>
+</div>
+
+<div class="review">
+<div class="review-name">Aneez</div>
+<div class="review-stars">★★★★★</div>
+<div class="review-text">Useful for emergencies.</div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+
+<img src="eduvyx.png">
+
+<div class="footer-title">
+Designed & Developed by EDUVYX
+</div>
+
+<a href="https://eduvyx.in" class="footer-link">
+www.eduvyx.in
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+/* COUNT ANIMATION */
+function animateValue(id,start,end,duration,suffix=""){
+let range=end-start;
+let current=start;
+let increment=1;
+let stepTime=Math.abs(Math.floor(duration/range));
+let obj=document.getElementById(id);
+
+let timer=setInterval(()=>{
+current+=increment;
+obj.innerText=current + suffix;
+
+if(current>=end){
+clearInterval(timer);
+}
+},stepTime);
+}
+
+window.onload=function(){
+animateValue("ratingCount",0,49,1500,"K+");
+animateValue("downloadCount",0,10,1800,"K+");
+};
+
+/* GET → INSTALL FLOW */
+let ready=false;
+
+function handleInstall(){
+
+if(ready){
+window.location.href =
+"https://github.com/Ruben-15/lifelink-bmc-release/releases/latest/download/app-release.apk";
+return;
+}
+
+let fill=document.getElementById("progressFill");
+let btnText=document.getElementById("btnText");
+
+let progress=0;
+
+let interval=setInterval(()=>{
+
+progress+=10;
+fill.style.width=progress+"%";
+btnText.innerText=progress+"%";
+
+if(progress>=100){
+clearInterval(interval);
+
+btnText.innerText="INSTALL";
+fill.style.width="100%";
+ready=true;
+}
+
+},250);
+}
+</script>
+
+</body>
+</html>
