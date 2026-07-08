@@ -419,10 +419,15 @@ let ready=false;
 
 function handleInstall(){
 
-if(ready){
-window.location.href =
-"https://github.com/Ruben-15/lifelink-bmc-release/releases/latest/download/lifelink.apk";
-return;
+if (ready) {
+    const link = document.createElement("a");
+    link.href =
+    "https://github.com/Ruben-15/lifelink-bmc-release/releases/latest/download/lifelink.apk";
+    link.download = "lifelink.apk";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return;
 }
 
 let fill=document.getElementById("progressFill");
